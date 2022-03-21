@@ -44,34 +44,4 @@ class DefaultController extends AbstractController
 
         return $this->redirectToRoute('main_homepage');
     }
-
-    /**
-     * @Route("/edit-product/{id}", methods="GET|POST", name="product_edit", requirements={"id"="\d+"})
-     * @Route("/add-product", methods="GET|POST", name="product_add")
-     * @throws Exception
-     */
-    public function editProduct(Request $request, int $id = null): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        if ($id) {
-            $product = $em->getRepository(Product::class)->find($id);
-        } else {
-            $product = new Product();
-        }
-
-        $form = $this->createForm(EditProductFormType::class, $product);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($product);
-            $em->flush();
-
-            return $this->redirectToRoute('product_edit', ['id' => $product->getId()]);
-        }
-
-        return $this->render('main/default/edit_product.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
 }
