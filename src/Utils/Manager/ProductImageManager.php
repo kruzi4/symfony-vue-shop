@@ -6,21 +6,31 @@ use App\Entity\ProductImage;
 use App\Utils\File\ImageResizer;
 use App\Utils\Filesystem\FilesystemWorker;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 
-class ProductImageManager
+class ProductImageManager extends AbstractBaseManager
 {
-    private EntityManagerInterface $entityManager;
     private FilesystemWorker $filesystemWorker;
     private string $uploadsTempDir;
     private ImageResizer $imageResizer;
 
     public function __construct(EntityManagerInterface $entityManager, FilesystemWorker $filesystemWorker, ImageResizer $imageResizer, string $uploadsTempDir)
     {
-        $this->entityManager = $entityManager;
+        parent::__construct($entityManager);
+
         $this->filesystemWorker = $filesystemWorker;
         $this->uploadsTempDir = $uploadsTempDir;
         $this->imageResizer = $imageResizer;
     }
+
+    /**
+     * @return ObjectRepository
+     */
+    public function getRepository(): ObjectRepository
+    {
+        return $this->entityManager->getRepository(ProductImage::class);
+    }
+
 
     /**
      * @param string $productDir
@@ -68,6 +78,11 @@ class ProductImageManager
         return $productImage;
     }
 
+    /**
+     * @param ProductImage $productImage
+     * @param string $productDir
+     * @return void
+     */
     public function removeImageFromProduct(ProductImage $productImage, string $productDir)
     {
         $smallFilePath = $productDir . '/' . $productImage->getFilenameSmall();
