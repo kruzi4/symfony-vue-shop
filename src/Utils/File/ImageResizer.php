@@ -24,7 +24,7 @@ class ImageResizer
     {
         $originalFilePath = $originalFileFolder . '/' . $originalFileName;
 
-        list($imageWith, $imageHeight) = getimagesize($originalFilePath);
+        [$imageWith, $imageHeight] = getimagesize($originalFilePath);
 
         $ratio = $imageWith / $imageHeight;
         $targetWidth = $targetParams['width'];
