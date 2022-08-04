@@ -72,7 +72,7 @@ class OrderManager extends AbstractBaseManager
         $this->entityManager->persist($order);
         $this->entityManager->flush();
 
-//        $this->cartManager->remove($cart);
+        $this->cartManager->remove($cart);
     }
 
     /**

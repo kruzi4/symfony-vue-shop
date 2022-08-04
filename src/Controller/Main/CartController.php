@@ -19,9 +19,13 @@ class CartController extends AbstractController
         $phpSessionId = $request->cookies->get('PHPSESSID');
         $cart = $cartRepository->findOneBy(['sessionId' => $phpSessionId]);
 
+        if ($cart) {
+            $cartProducts = $cart->getCartProducts();
+        }
+
         return $this->render('main/cart/show.html.twig', [
             'cart' => $cart,
-            'cartProducts' => $cart->getCartProducts()
+            'cartProducts' => $cartProducts ?? null
         ]);
     }
 
