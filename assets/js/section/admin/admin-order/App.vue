@@ -1,15 +1,17 @@
 <template>
   <div>
-    Vue app: {{ productsCount }}
+    Vue app:  {{ testProperty }}
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex"
+
 export default {
-  name: "App",
   computed: {
-     productsCount: () => {
-       return 123;
+    ...mapState("products", ["testProperty"]),
+    productsCount: () => {
+       return 1234;
      }
   }
 }
