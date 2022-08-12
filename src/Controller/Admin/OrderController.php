@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Order;
+use App\Entity\OrderProduct;
 use App\Entity\StaticStorage\OrderStaticStorage;
 use App\Form\Admin\EditOrderFormType;
 use App\Form\Handler\OrderFormHandler;
@@ -56,8 +57,27 @@ class OrderController extends AbstractController
             $this->addFlash('warning', 'Something went wrong. Please check your form!');
         }
 
+        $orderProducts = [];
+        foreach ($order->getOrderProducts()->getValues() as $product) {
+            /** @var OrderProduct $product */
+            $orderProducts[] = [
+                'id' => $product->getId(),
+                'product' => [
+                    'id' => $product->getProduct()->getId(),
+                    'title' => $product->getProduct()->getTitle(),
+                    'category' => [
+                        'id' => $product->getProduct()->getCategory()->getId(),
+                        'title' => $product->getProduct()->getCategory()->getTitle()
+                    ]
+                ],
+                'quantity' => $product->getQuantity(),
+                'pricePerOne' => $product->getPricePerOne()
+            ];
+        }
+
         return $this->render('admin/order/edit.html.twig', [
             'order' => $order,
+            'orderProducts' => $orderProducts,
             'form' => $form->createView()
         ]);
     }

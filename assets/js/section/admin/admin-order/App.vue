@@ -1,15 +1,29 @@
 <template>
-  <div>
-    Vue app:  {{ testProperty }}
+  <div class="table-additional-selection">
+    <hr>
+      <OrderProductItem
+          v-for="(orderProduct, index) in staticStore.orderProducts"
+          :key="orderProduct.id"
+          :order-product="orderProduct"
+          :index="index"
+      />
+    <hr>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
+import OrderProductItem from "./components/orderProductItem";
 
 export default {
+  components: {OrderProductItem},
+  created() {
+    console.log(
+        window.staticStore
+    )
+  },
   computed: {
-    ...mapState("products", ["testProperty"]),
+    ...mapState("products", ["staticStore"]),
     productsCount: () => {
        return 1234;
      }
