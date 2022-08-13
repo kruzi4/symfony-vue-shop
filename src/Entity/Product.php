@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -10,6 +12,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ApiResource(
@@ -25,8 +29,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *     itemOperations={
  *          "get"={},
  *          "put"={}
+ *     },
+ *     attributes={
+ *          "pagination_client_items_per_page"=true,
+ *          "formats"={"jsonld", "json"}
  *     }
  * )
+ * @ApiFilter(BooleanFilter::class, properties={"isPublished"})
+ * @ApiFilter(SearchFilter::class, properties={"category":"exact"})
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
 class Product
@@ -36,6 +46,7 @@ class Product
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
+     * @ApiProperty(identifier=false)
      * @Groups({"product:list"})
      */
     private $id;
@@ -43,6 +54,7 @@ class Product
     /**
      * @ORM\Column(type="uuid")
      *
+     * @ApiProperty(identifier=true)
      * @Groups({"product:list"})
      */
     private $uuid;

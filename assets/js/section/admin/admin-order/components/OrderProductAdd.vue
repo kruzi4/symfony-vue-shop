@@ -2,11 +2,19 @@
   <div class="row mb-2">
     <div class="col-md-2">
       <select
-          v-model="form.category"
+          v-model="form.categoryId"
           name="add_product_category_select"
           class="form-control"
+          @change="getProducts()"
       >
         <option value="" disabled>- choose options -</option>
+        <option
+        v-for="category in categories"
+        :key="category.id"
+        :value="category.id"
+        >
+          {{ category.title }}
+        </option>
       </select>
     </div>
     <div class="col-md-3">
@@ -16,6 +24,13 @@
           class="form-control"
       >
         <option value="" disabled>- choose options -</option>
+        <option
+            v-for="categoryProduct in categoryProducts"
+            :key="categoryProduct.id"
+            :value="categoryProduct.uuid"
+        >
+          {{ productTitle(categoryProduct) }}
+        </option>
       </select>
     </div>
     <div class="col-md-2">
@@ -40,24 +55,67 @@
     <div class="col-md-3">
       <button
           class="btn btn-outline-info"
+          @click="viewDetails"
       >
         Details
+      </button>
+      <button
+          class="btn btn-outline-success"
+          @click="submit"
+      >
+        Add
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import {mapActions, mapMutations, mapState} from "vuex";
+import {getProductInformativeTitle} from "../../../../utils/title-formatter";
+import {getUrlViewProduct} from "../../../../utils/url-generator";
+
 export default {
   name: "OrderProductAdd",
   data() {
     return {
       form: {
-        category: "",
+        categoryId: "",
         productId: "",
         quantity: "",
         pricePerOne: ""
       }
+    }
+  },
+  computed: {
+    ...mapState("products", ["categories", "staticStore", "categoryProducts"])
+  },
+  methods: {
+    ...mapMutations("products", ["setNewProductInfo"]),
+    ...mapActions("products", ["addNewOrderProduct", "getProductsByCategory"]),
+    productTitle(product) {
+      return getProductInformativeTitle(product)
+    },
+    getProducts() {
+      this.setNewProductInfo(this.form)
+      this.getProductsByCategory()
+    },
+    viewDetails(event) {
+      event.preventDefault();
+
+      const url = getUrlViewProduct(
+          this.staticStore.url.viewProduct,
+          this.form.productId
+      )
+      window.open(url, "_blank").focus()
+    },
+    submit(event) {
+      event.preventDefault();
+      this.setNewProductInfo(this.form)
+      this.addNewOrderProduct()
+      this.resetFormData()
+    },
+    resetFormData() {
+      Object.assign(this.$data, this.$options.data.apply(this))
     }
   }
 }

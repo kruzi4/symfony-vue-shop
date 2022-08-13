@@ -29,6 +29,7 @@
 <script>
 import {mapActions, mapState} from "vuex";
 import {getUrlViewProduct} from "../../../../utils/url-generator";
+import {getProductInformativeTitle} from "../../../../utils/title-formatter";
 
 export default {
   name: "orderProductItem",
@@ -48,7 +49,7 @@ export default {
       return this.index + 1;
     },
     productTitle() {
-      return this.orderProduct.product.title;
+      return getProductInformativeTitle(this.orderProduct.product);
     },
     categoryTitle() {
       return this.orderProduct.product.category.title

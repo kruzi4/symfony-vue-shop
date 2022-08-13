@@ -39,7 +39,7 @@ class OrderProduct
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProducts")
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderProducts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $appOrder;

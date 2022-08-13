@@ -125,6 +125,8 @@
         window.staticStore.orderId = "{{ order ? order.id : '' }}"
         window.staticStore.orderProducts = {{ orderProducts|json_encode|raw }}
         window.staticStore.urlViewProduct = '{{ path('admin_product_edit_blank') }}'
+        window.staticStore.urlAPICategory = '{{ path('api_categories_get_collection') }}'
+        window.staticStore.urlAPIProduct = '{{ path('api_products_get_collection') }}'
         window.staticStore.urlAPIOrderProduct = '{{ path('api_order_products_get_collection') }}'
     </script>
     {{ encore_entry_script_tags('appAdminOrder') }}

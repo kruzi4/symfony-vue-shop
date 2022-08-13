@@ -9,6 +9,19 @@ export function getUrlViewProduct(viewUrl, productId) {
     )
 }
 
+export function getUrlProductsByCategory(defaultUrl, categoryId, page, countLimit) {
+    return (
+        defaultUrl
+        + "?category=api/categories/"
+        + categoryId
+        + "&isPublished=true"
+        + "&page="
+        + page
+        + "&itemsPerPage="
+        + countLimit
+    )
+}
+
 export function concatUrlByParams(...params) {
     return params.join('/')
 }
