@@ -25,7 +25,7 @@
       >
         <option value="" disabled>- choose options -</option>
         <option
-            v-for="categoryProduct in categoryProducts"
+            v-for="categoryProduct in freeCategoryProducts"
             :key="categoryProduct.id"
             :value="categoryProduct.uuid"
         >
@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import {mapActions, mapMutations, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 import {getProductInformativeTitle} from "../../../../utils/title-formatter";
 import {getUrlViewProduct} from "../../../../utils/url-generator";
 
@@ -87,7 +87,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("products", ["categories", "staticStore", "categoryProducts"])
+    ...mapState("products", ["categories", "staticStore", "categoryProducts"]),
+    ...mapGetters("products", ["freeCategoryProducts"])
   },
   methods: {
     ...mapMutations("products", ["setNewProductInfo"]),
