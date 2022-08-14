@@ -13,7 +13,7 @@
       {{ orderProduct.quantity }}
     </div>
     <div class="col-md-2">
-      ${{ orderProduct.pricePerOne }}
+      ${{ orderProduct.PricePerOne }}
     </div>
     <div class="col-md-3">
       <button class="btn btn-outline-info" @click="viewDetails">

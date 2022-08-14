@@ -76,6 +76,21 @@ class OrderManager extends AbstractBaseManager
     }
 
     /**
+     * @param Order $order
+     * @return void
+     */
+    public function recalculateOrderTotalPrice(Order $order): void
+    {
+        $orderTotalPrice = 0;
+        /** @var OrderProduct $orderProduct */
+        foreach ($order->getOrderProducts()->getValues() as $orderProduct) {
+            $orderTotalPrice += $orderProduct->getQuantity() * $orderProduct->getPricePerOne();
+        }
+
+        $order->setTotalPrice($orderTotalPrice);
+    }
+
+    /**
      * @param object $entity
      */
     public function save(object $entity): void

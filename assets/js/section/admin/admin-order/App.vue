@@ -9,6 +9,7 @@
           :index="index"
       />
     <hr>
+    <TotalPriceBlock/>
   </div>
 </template>
 
@@ -16,9 +17,10 @@
 import {mapActions, mapState} from "vuex"
 import OrderProductItem from "./components/orderProductItem";
 import OrderProductAdd from "./components/OrderProductAdd";
+import TotalPriceBlock from "./components/TotalPriceBlock";
 
 export default {
-  components: {OrderProductAdd, OrderProductItem},
+  components: {TotalPriceBlock, OrderProductAdd, OrderProductItem},
   created() {
     this.getCategories()
     this.getOrderProducts()
