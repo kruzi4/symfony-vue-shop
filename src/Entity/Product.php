@@ -47,7 +47,7 @@ class Product
      * @ORM\Column(type="integer")
      *
      * @ApiProperty(identifier=false)
-     * @Groups({"product:list", "order:item"})
+     * @Groups({"product:list", "order:item", "cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $id;
 
@@ -55,28 +55,28 @@ class Product
      * @ORM\Column(type="uuid")
      *
      * @ApiProperty(identifier=true)
-     * @Groups({"product:list", "product:item", "order:item"})
+     * @Groups({"product:list", "product:item", "order:item", "cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $uuid;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"product:list", "product:list:write", "order:item"})
+     * @Groups({"product:list", "product:list:write", "order:item", "cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $Title;
 
     /**
      * @ORM\Column(type="decimal", precision=6, scale=2)
      *
-     * @Groups({"product:list", "product:list:write", "order:item"})
+     * @Groups({"product:list", "product:list:write", "order:item", "cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
      *
-     * @Groups({"product:list", "product:list:write", "order:item"})
+     * @Groups({"product:list", "product:list:write", "order:item", "cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $quantity;
 
@@ -102,6 +102,8 @@ class Product
 
     /**
      * @ORM\OneToMany(targetEntity=ProductImage::class, mappedBy="product", cascade={"persist"}, orphanRemoval=true)
+     *
+     * @Groups({"cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $productImages;
 
@@ -114,7 +116,7 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
      *
-     * @Groups({"product:list", "product:list:write", "order:item"})
+     * @Groups({"product:list", "product:list:write", "order:item", "cart:item", "cart:list", "cart_product:item", "cart_product:list"})
      */
     private $category;
 
